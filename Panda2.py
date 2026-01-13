@@ -5,7 +5,7 @@ data = {
   "Age":[20,20,19,18,21,18,22,21,20,19,20]
 }
 df = pd.DataFrame(data)
-print(df)
-
-
-
+print(df.head(),"\n")
+print(df.tail(),"\n")
+print(df.shape,"\n")
+print(df.columns,"\n")
