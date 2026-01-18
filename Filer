@@ -1,0 +1,59 @@
+import os
+import shutil
+from pathlib import Path
+def get_unique_path(destination_folder, filename):
+  file_path = destination_folder / filename
+  if not file_path.exists():
+    return file_path
+  name, ext = os.path.splitext(filename)
+  counter = 1
+  while file_path.exists():
+    file_path = destination_folder / f"{name}_{counter}{ext}"
+    counter += 1
+  return file_path
+def organize_files(base_path):
+  current_path = Path(base_path)
+  if not current_path.exists():
+    print(f"Error: The Path {current_path} does not exist.")
+    return
+  file_categories = {
+    "Images" : [".jpg", "jpeg", ".png", "webp"],
+    "Videos" : [".mp4", ".mkv", ".webm"],
+    "Documents" : [".docx", ".pdf", ".ppt", ".pptx", ".xlsx", ".txt", ".csv"],
+    "Audios" : [".mp3"],
+    "Softwares" : [".exe"],
+    "Archives" : [".rar", ".zip"]
+}
+  extension_map = {ext: folder for folder, extensions in file_categories.items() for ext in extensions}
+  ignored_extensions = {".tmp", ".crdownload", ".ini", ".part"}
+  files_moved = 0
+  print(f"Scanning: {current_path}...\n")
+  for entry in current_path.iterdir():
+    if entry.is_dir():
+      continue
+    file_ext = entry.suffix.lower()
+
+    if file_ext in ignored_extensions:
+      continue
+
+    target_folder_name = extension_map.get(file_ext, "Others")
+    target_folder = current_path / target_folder_name
+
+    target_folder.mkdir(exist_ok = True)
+
+    destination_path = get_unique_path(target_folder, entry.name)
+
+    try:
+      shutil.move(str(entry), str(destination_path))
+      print(f"Moved: {entry.name} -> {target_folder_name}")
+      files_moved += 1
+    except Exception as e:
+      print(f"Skipped {entry.name}: {e}")
+  print("-" * 30)
+  print(f"success! Organized {files_moved} files.")
+if __name__ == "__main__" :
+  target_dir = r"C:\Users\LENOVO\Downloads"
+  organize_files(target_dir)
+
+
+
