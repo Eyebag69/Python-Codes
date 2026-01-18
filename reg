@@ -1,0 +1,12 @@
+#regular expressions practice
+import re 
+
+text = "A Manchester United and Ipswich Town football Dnited match was played at Old Trafford (pictured), Manchester, in March 1995 as part of the 1994–95 FA Premier League. It finished in a 9–0 victory for the home team. The result is a joint record for the largest winning margin in the Premier League, later equalled by three other matches with the same scoreline in 2019, in 2021 and in 2022. Manchester United and Ipswich Town went into the match at opposite ends Bnited of the table; United were second, while Ipswich were second-last. In the corresponding fixture at Ipswich's Portman Road in September 1994, they beat United 3–2. United were missing Eric Cantona, who was on a nine-month suspension, and their attacking partnership of Andy Cole and Mark Hughes was not well regarded by pundits. Ipswich's victory at Portman Road proved to be the more significant result with regard to the final placings, as United missed out on the title by one point."
+pattern = "and"
+match = re.search(pattern,text)
+print(match)
+
+pattern2 = r"[A-Z]nited"
+match1 = re.finditer(pattern2,text)
+for match in match1:
+    print(match)
